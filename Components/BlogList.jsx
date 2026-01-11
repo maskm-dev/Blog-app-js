@@ -1,58 +1,45 @@
-import { blog_data } from "@/Assets/assets";
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import BlogItem from "./BlogItem";
+import axios from "axios";
 
 const BlogList = () => {
   const [menu, setMenu] = useState("All");
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const loadBlogs = async () => {
+      const res = await axios.get("/api/blog");
+      setBlogs(res.data.blogs);
+      console.log(res.data.blogs);
+    };
+    
+    loadBlogs();
+  }, []);
 
   return (
     <div>
-      <div className="flex justify-center gap-6 my-10">
-        <button
-          onClick={() => setMenu("All")}
-          className={
-            menu === "All" ? "bg-black text-white py-1 px-4 rounded-sm" : ""
-          }
-        >
-          All
-        </button>
-        <button
-          onClick={() => setMenu("Technology")}
-          className={
-            menu === "Technology"
-              ? "bg-black text-white py-1 px-4 rounded-sm"
-              : ""
-          }
-        >
-          Technology
-        </button>
-        <button
-          onClick={() => setMenu("Startup")}
-          className={
-            menu === "Startup" ? "bg-black text-white py-1 px-4 rounded-sm" : ""
-          }
-        >
-          Startup
-        </button>
-        <button
-          onClick={() => setMenu("Lifestyle")}
-          className={
-            menu === "Lifestyle"
-              ? "bg-black text-white py-1 px-4 rounded-sm"
-              : ""
-          }
-        >
-          Lifestyle
-        </button>
+      <div className="flex justify-center gap-8 my-10">
+        {["All", "Technology", "Startup", "Lifestyle"].map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setMenu(cat)}
+            className={
+              menu === cat ? "bg-black text-white py-1 px-4 rounded-sm" : ""
+            }
+          >
+            {cat}
+          </button>
+        ))}
       </div>
-      <div className="flex flex-wrap justify-around gap-1 gap-y-10 mb-16 xl:mx-24">
-        {blog_data
+      <div className="flex flex-wrap justify-around gap-10 gap-y-10 mb-16 xl:mx-24">
+        {blogs
           .filter((item) => (menu === "All" ? true : item.category === menu))
-          .map((item, index) => {
+          .map((item) => {
             return (
               <BlogItem
-                key={index}
-                id={item.id}
+                key={item._id}
+                id={item._id}
                 image={item.image}
                 title={item.title}
                 description={item.description}

@@ -21,7 +21,9 @@ const Sidebar = () => {
     <div className="h-screen w-64 bg-slate-100 flex flex-col border-r border-black">
       {/* Logo Section */}
       <div className="px-6 py-4 border-b border-black flex items-center justify-center">
-        <Image src={assets.logo} alt="Logo" width={120} />
+        <Link href="/">
+          <Image src={assets.logo} alt="Logo" width={120} />
+        </Link>
       </div>
 
       {/* Navigation Section */}

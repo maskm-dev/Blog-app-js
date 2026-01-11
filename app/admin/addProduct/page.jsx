@@ -21,8 +21,20 @@ const Page = () => {
     console.log(data);
   };
 
+  const onImageChangeHandler = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    if (!image) {
+      toast.error("Please upload an image");
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("title", data.title);
@@ -35,6 +47,7 @@ const Page = () => {
       const res = await axios.post("/api/blog", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
       if (res.data.success) {
         toast.success(res.data.msg);
         setImage(false);
@@ -63,16 +76,20 @@ const Page = () => {
             className="mt-4"
             src={!image ? assets.upload_area : URL.createObjectURL(image)}
             alt=""
-            width={140}
-            height={70}
+            width={400}
+            height={200}
           />
         </label>
+        <p className="text-gray-400 text-sm mt-4">
+          Recommended size 720 x 1280 pixels for best results.
+        </p>
         <input
-          onChange={(e) => setImage(e.target.files[0])}
+          onChange={onImageChangeHandler}
           type="file"
           id="image"
           hidden
           required
+          accept="image/*"
         />
 
         <p className="text-xl mt-4">Blog Title</p>

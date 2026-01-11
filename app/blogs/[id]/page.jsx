@@ -1,20 +1,34 @@
 "use client";
-
-import { assets, blog_data } from "@/Assets/assets";
+import { assets } from "@/Assets/assets";
 import Footer from "@/Components/Footer";
+import axios from "axios";
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React from "react";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const params = useParams();
-  const id = Number(params.id);
+  const id = params.id;
+  const [data, setData] = useState(null);
 
-  const blog = blog_data.find((b) => b.id === id);
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await axios.get("/api/blog", {
+          params: { id },
+        });
+        setData(res.data.blog);
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    };
 
-  if (!blog) return <p>Loading...</p>;
+    fetchBlog();
+  }, [id]);
+
+  if (!data) return <p>Loading...</p>;
 
   return (
     <>
@@ -34,76 +48,36 @@ const Page = () => {
         </div>
         <div className="text-center my-24">
           <h1 className="text-2xl sm:text-5xl font-semibold max-w-175 mx-auto">
-            {blog.title}
+            {data.title}
           </h1>
           <Image
-            src={blog.author_img}
+            src={data.authorImg || "/author_img.png"}
             alt=""
             width={60}
             height={60}
             className="mx-auto mt-6 border border-white rounded-full"
           />
-          <p className="mt-1 pb-2 text-lg max-w-185 mx-auto">{blog.author}</p>
+          <p className="mt-1 pb-2 text-lg max-w-185 mx-auto">{data.author}</p>
         </div>
       </div>
       <div className="mx-5 max-w-200 md:mx-auto -mt-25 mb-5">
         <Image
-          src={blog.image}
+          src={data.image}
           alt=""
           width={1280}
           height={720}
-          className="border-4 border-white"
+          className="border-4 border-black"
         />
-        <h1 className="my-8 text-2xl font-semibold mt-4">Introduction :</h1>
-        <p>{blog.description}</p>
-        <h3 className="my-5 text-xl font-semibold">
-          Step 1 : Self-Reflection and Goal Setting
-        </h3>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quis
-          in quaerat odio ab facilis?
-        </p>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum nulla
-          temporibus maxime.
-        </p>
-        <h3 className="my-5 text-xl font-semibold">
-          Step 2 : Self-Reflection and Goal Setting
-        </h3>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quis
-          in quaerat odio ab facilis?
-        </p>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum nulla
-          temporibus maxime.
-        </p>
-        <h3 className="my-5 text-xl font-semibold">
-          Step 3 : Self-Reflection and Goal Setting
-        </h3>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quis
-          in quaerat odio ab facilis?
-        </p>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum nulla
-          temporibus maxime.
-        </p>
-        <h3 className="my-5 text-xl font-semibold">Conclusion</h3>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit velit
-          voluptates assumenda, officiis ea excepturi veritatis perspiciatis
-          tempore officia vel illum voluptatibus laborum reiciendis rerum.
-        </p>
-        <div className="my-24">
-          <p className="text-black font-semibold my-4">
-            Share This Artical on social media :
-          </p>
-          <div className="flex">
-            <Image src={assets.facebook_icon} alt="" width={50} />
-            <Image src={assets.twitter_icon} alt="" width={50} />
-            <Image src={assets.googleplus_icon} alt="" width={50} />
-          </div>
+
+        <div
+          className="blog-content"
+          dangerouslySetInnerHTML={{ __html: data.description }}
+        ></div>
+
+        <div className="flex">
+          <Image src={assets.facebook_icon} alt="" width={50} />
+          <Image src={assets.twitter_icon} alt="" width={50} />
+          <Image src={assets.googleplus_icon} alt="" width={50} />
         </div>
       </div>
       <Footer />
