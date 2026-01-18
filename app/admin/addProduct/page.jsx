@@ -1,5 +1,5 @@
 "use client";
-import { assets } from "@/Assets/assets";
+import { Upload } from "lucide-react";
 import axios from "axios";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -72,13 +72,20 @@ const Page = () => {
       <form onSubmit={onSubmitHandler} className="pt-5 px-5 sm:pt-12 sm:pl-16">
         <p className="text-xl">Upload Thumbnail</p>
         <label htmlFor="image">
-          <Image
-            className="mt-4"
-            src={!image ? assets.upload_area : URL.createObjectURL(image)}
-            alt=""
-            width={400}
-            height={200}
-          />
+          {!image ? (
+            <div className="flex flex-col items-center justify-center w-full max-w-[400px] h-[200px] mt-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+              <Upload className="w-10 h-10 text-gray-400" />
+              <span className="mt-2 text-sm text-gray-500">Upload Image</span>
+            </div>
+          ) : (
+            <Image
+              className="mt-4"
+              src={URL.createObjectURL(image)}
+              alt=""
+              width={400}
+              height={200}
+            />
+          )}
         </label>
         <p className="text-gray-400 text-sm mt-4">
           Recommended size 720 x 1280 pixels for best results.

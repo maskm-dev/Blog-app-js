@@ -1,5 +1,8 @@
 "use client";
-import { assets } from "@/Assets/assets";
+import logo from "@/Assets/logo.png";
+import facebook_icon from "@/Assets/facebook_icon.png";
+import twitter_icon from "@/Assets/twitter_icon.png";
+import googleplus_icon from "@/Assets/googleplus_icon.png";
 import Footer from "@/Components/Footer";
 import axios from "axios";
 import { MoveRight } from "lucide-react";
@@ -35,12 +38,7 @@ const Page = () => {
       <div className="bg-gray-200 py-5 px-5 md:px-12 lg:px-28">
         <div className="flex justify-between items-center">
           <Link href={"/"}>
-            <Image
-              src={assets.logo}
-              width={180}
-              alt=""
-              className="w-32.5 sm:w-auto"
-            />
+            <Image src={logo} width={180} alt="" className="w-32.5 sm:w-auto" />
           </Link>
           <button className="flex items-center gap-2 font-medium py-1 px-3 sm:py-3 sm:px-6 border border-solid border-black shadow-[-5px_5px_rgba(0,0,0,0.8)] transition-shadow duration-300 ease-in-out hover:shadow-[-1px]">
             Get Started <MoveRight />
@@ -75,9 +73,9 @@ const Page = () => {
         ></div>
 
         <div className="flex">
-          <Image src={assets.facebook_icon} alt="" width={50} />
-          <Image src={assets.twitter_icon} alt="" width={50} />
-          <Image src={assets.googleplus_icon} alt="" width={50} />
+          <Image src={facebook_icon} alt="" width={50} />
+          <Image src={twitter_icon} alt="" width={50} />
+          <Image src={googleplus_icon} alt="" width={50} />
         </div>
       </div>
       <Footer />

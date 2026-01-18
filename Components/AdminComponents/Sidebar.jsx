@@ -1,4 +1,4 @@
-import { assets } from "@/Assets/assets";
+import logo from "@/Assets/logo.png";
 import { CirclePlus, Mail, SquarePen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,7 +22,7 @@ const Sidebar = () => {
       {/* Logo Section */}
       <div className="px-6 py-4 border-b border-black flex items-center justify-center">
         <Link href="/">
-          <Image src={assets.logo} alt="Logo" width={120} />
+          <Image src={logo} alt="Logo" width={120} />
         </Link>
       </div>
 
